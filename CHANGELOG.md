@@ -1,3 +1,24 @@
+2.0.0
+=====
+
+Forked to ShutUp Assets.
+
+Breaking Changes
+----------------
+
+- Working only with Ruby >= 2.2, Rails >= 4.2
+
+Enhancements
+------------
+
+- Better performance
+- Update gemspec file, tests & rake
+
+Bug Fixes
+---------
+
+- Fix [Rails stop writing #42](https://github.com/evrone/quiet_assets/issues/42)
+
 1.1.0
 =====
 

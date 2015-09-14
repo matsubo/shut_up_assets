@@ -1,19 +1,19 @@
-# Quiet Assets
-[![Continuous Integration status](https://api.travis-ci.org/evrone/quiet_assets.svg)](http://travis-ci.org/evrone/quiet_assets)
+# ShutUp Assets
+[![Continuous Integration status](https://api.travis-ci.org/estum/shut_up_assets.svg)](http://travis-ci.org/estum/shut_up_assets)
 
-Quiet Assets turns off the Rails asset pipeline log. This means that it suppresses messages in your development log such as:
+ShutUp Assets is a fresh fork of [Quiet Assets](https://github.com/evrone/quiet_assets), it turns off the Rails asset pipeline log. This means that it suppresses messages in your development log such as:
 
     Started GET "/assets/application.js" for 127.0.0.1 at 2015-01-28 13:35:34 +0300
     Served asset /application.js - 304 Not Modified (8ms)
 
-Support Ruby on Rails >= 3.1
+Support Ruby on Rails >= 4.2
 
 ## Installation
 
 It is recommended that this gem only be used for development.
 To install, add this line to development group in your Gemfile:
 
-    gem 'quiet_assets', group: :development
+    gem 'shut_up_assets', group: :development
 
 Then, from the command line, run:
 
@@ -21,7 +21,7 @@ Then, from the command line, run:
 
 ## Usage
 
-Simply installing Quiet Assets will suppress the log messages automatically. However, if you wish to temporarily re-enable the logging of the asset pipeline messages,
+Simply installing ShutUp Assets will suppress the log messages automatically. However, if you wish to temporarily re-enable the logging of the asset pipeline messages,
 place the following in your `config/application.rb` file:
 
     config.quiet_assets = false
@@ -29,7 +29,6 @@ place the following in your `config/application.rb` file:
 If you need to supress output for other paths you can do so by specifying:
 
     config.quiet_assets_paths << '/silent/'
-
 
 ## License
 
