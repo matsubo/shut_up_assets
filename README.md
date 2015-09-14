@@ -28,7 +28,7 @@ place the following in your `config/application.rb` file:
 
 If you need to supress output for other paths you can do so by specifying:
 
-    config.quiet_assets_paths << '/silent/'
+    config.shut_up_assets.paths << '/silent/'
 
 ## License
 
