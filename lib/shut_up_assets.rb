@@ -15,8 +15,26 @@ class ShutUpAssets < Rails::Railtie # :nodoc-all:
 
   class RackLogger < Rails::Rack::Logger
     def call_app(request, env)
-      return super unless ShutUpAssets.suppress_on?(request)
-      logger.silence(::Logger::WARN) { super }
+      # Put some space between requests in development logs.
+      logger.debug { "\n" } if development?
+
+      instrumenter = ActiveSupport::Notifications.instrumenter
+      instrumenter.start 'request.action_dispatch', request: request
+      log_request_info(request) unless ShutUpAssets.suppress_on?(request)
+      resp = @app.call(env)
+      resp[2] = ::Rack::BodyProxy.new(resp[2]) { finish(request) }
+      resp
+    rescue Exception
+      finish(request)
+      raise
+    ensure
+      ActiveSupport::LogSubscriber.flush_all!
+    end
+
+    private
+
+    def log_request_info(request)
+      logger.info { started_request_message(request) }
     end
   end
 

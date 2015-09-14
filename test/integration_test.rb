@@ -4,9 +4,15 @@ class HomeController < ActionController::Base
   def index
     render :text => 'Hi there!'
   end
+
+  def error
+    raise "Breaking"
+    render :text => 'Hi there!'
+  end
 end
 
 class IntegrationTest < ActionController::TestCase
+  EMPTY_LINE = "\n\n"
   attr_accessor :app, :output
 
   def initialize!(&block)
@@ -15,7 +21,7 @@ class IntegrationTest < ActionController::TestCase
     app.initialize!
 
     Rails.logger = ActiveSupport::Logger.new(output)
-    # Rails.logger.formatter = lambda { |s, d, p, m| "#{m}\n" }
+    Rails.logger.formatter = lambda { |s, d, p, m| "#{m}\n" }
   end
 
   def request(uri)
@@ -31,7 +37,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/assets/picture')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_assets_url_with_turned_on_option
@@ -39,7 +45,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/assets/picture')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_in_multi_thread_env
@@ -64,7 +70,7 @@ class IntegrationTest < ActionController::TestCase
 
     n = output.string.lines.select{|i| i.match(/Started GET "\/"/) }
 
-    assert_equal n.size, 1
+    assert_equal 1, n.size
   end
 
   def test_assets_url_with_turned_off_option
@@ -88,7 +94,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('http://some-url.com//assets/picture')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url
@@ -104,7 +110,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url_with_paths_option_as_string_appending
@@ -112,7 +118,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url_with_paths_option_as_array
@@ -120,7 +126,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_equal '', output.string
+    assert_equal EMPTY_LINE, output.string
   end
 end
 
