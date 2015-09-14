@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'minitest/autorun'
 require 'rails'
+require 'action_pack'
 require 'action_controller'
 require 'shut_up_assets'
 
