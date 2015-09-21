@@ -12,7 +12,7 @@ class HomeController < ActionController::Base
 end
 
 class IntegrationTest < ActionController::TestCase
-  EMPTY_LINE = /^\s*$/m
+  EMPTY_LINE = ""
   attr_accessor :app, :output
 
   def initialize!(&block)
@@ -37,7 +37,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/assets/picture')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_assets_url_with_turned_on_option
@@ -45,7 +45,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/assets/picture')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_in_multi_thread_env
@@ -94,7 +94,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('http://some-url.com//assets/picture')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url
@@ -110,7 +110,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url_with_paths_option_as_string_appending
@@ -118,7 +118,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 
   def test_quiet_url_with_paths_option_as_array
@@ -126,7 +126,7 @@ class IntegrationTest < ActionController::TestCase
 
     app.call request('/quiet/this')
 
-    assert_match EMPTY_LINE, output.string
+    assert_equal EMPTY_LINE, output.string
   end
 end
 

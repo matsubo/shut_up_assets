@@ -3,24 +3,28 @@ require 'rails/rack/logger'
 require 'active_support/configurable'
 
 class ShutUpAssets < Rails::Railtie # :nodoc-all:
-  class << self
-    def enabled?
-      config.quiet_assets
-    end
+  def self.enabled?
+    config.quiet_assets
+  end
 
-    def suppress_on?(request)
-      enabled? && request.get? && request.filtered_path =~ config.shut_up_assets.pattern
-    end
+  def self.suppress_on?(request)
+    enabled? && request.get? && request.filtered_path =~ config.shut_up_assets.pattern
   end
 
   class RackLogger < Rails::Rack::Logger
+    EMPTY_LINE = "\n".freeze
+
     def call_app(request, env)
+      suppressed = ShutUpAssets.suppress_on?(request)
+
       # Put some space between requests in development logs.
-      logger.debug { "\n" } if development?
+      logger.debug { EMPTY_LINE } if development? && !suppressed
 
       instrumenter = ActiveSupport::Notifications.instrumenter
       instrumenter.start 'request.action_dispatch', request: request
-      log_request_info(request) unless ShutUpAssets.suppress_on?(request)
+
+      logger.info { started_request_message(request) } unless suppressed
+
       resp = @app.call(env)
       resp[2] = ::Rack::BodyProxy.new(resp[2]) { finish(request) }
       resp
@@ -29,12 +33,6 @@ class ShutUpAssets < Rails::Railtie # :nodoc-all:
       raise
     ensure
       ActiveSupport::LogSubscriber.flush_all!
-    end
-
-    private
-
-    def log_request_info(request)
-      logger.info { started_request_message(request) }
     end
   end
 

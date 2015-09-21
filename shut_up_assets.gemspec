@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'shut_up_assets'
-  spec.version       = '2.0.0'
+  spec.version       = '2.0.1'
   spec.authors       = ['Dmitry Karpunin', 'Dmitry Vorotilin', 'Anton Semenov']
   spec.email         = %w(koderfunk@gmail.com d.vorotilin@gmail.com anton.estum@gmail.com)
   spec.homepage      = 'https://github.com/estum/shut_up_assets'
