@@ -1,5 +1,13 @@
 rvm:
   - 2.2
+  - 2.3.0
+  - ruby-head
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+  fast_finish: true
+
 
 gemfile:
   - Gemfile
